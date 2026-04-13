@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mr Professional Beauty Saloon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #070707;
+      --deep: #0f0f0f;
+      --card: #141414;
+      --card2: #191919;
+      --gold: #C9A84C;
+      --gold-light: #E2C06A;
+      --gold-dim: #6b5628;
+      --white: #f4efe6;
+      --grey: #777;
+      --grey2: #aaa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 3rem;
+      background: rgba(7,7,7,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .nav-logo-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .nav-logo-sub {
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--grey2);
+      margin-top: 2px;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 600;
+      opacity: 0.6;
+      transition: opacity 0.3s, color 0.3s;
+    }
+
+    .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+    .nav-book {
+      background: var(--gold) !important;
+      color: var(--black) !important;
+      opacity: 1 !important;
+      padding: 0.5rem 1.2rem;
+      font-weight: 700 !important;
+    }
+
+    .nav-book:hover { background: var(--gold-light) !important; color: var(--black) !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 7rem 2rem 5rem;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 35%, rgba(201,168,76,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 15% 85%, rgba(201,168,76,0.04) 0%, transparent 55%);
+    }
+
+    .hero-deco {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border: 1px solid rgba(201,168,76,0.05);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: rotateDeco 30s linear infinite;
+    }
+
+    .hero-deco::before {
+      content: '';
+      position: absolute;
+      inset: 30px;
+      border: 1px solid rgba(201,168,76,0.04);
+      border-radius: 50%;
+    }
+
+    @keyframes rotateDeco {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 11vw, 8rem);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s ease forwards;
+    }
+
+    .hero-title-gold { color: var(--gold); font-style: italic; }
+
+    .hero-title-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 3.5vw, 1.8rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--grey2);
+      margin: 1.2rem 0 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s ease forwards;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s ease forwards;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      padding: 0.9rem 2.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.2);
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(201,168,76,0.35);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      padding: 0.9rem 2.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      border: 1px solid rgba(244,239,230,0.2);
+      transition: border-color 0.3s, color 0.3s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+      opacity: 0;
+      animation: fadeUp 0.9s 1s ease forwards;
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: center; }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 0.4rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ORNAMENT */
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .ornament::before, .ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+    }
+
+    .ornament-inner { color: var(--gold-dim); font-size: 0.7rem; }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; padding: 7rem 2rem; }
+
+    .sec-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .sec-desc {
+      text-align: center;
+      color: var(--grey2);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto 4rem;
+    }
+
+    /* SERVICES */
+    #services { background: var(--deep); }
+
+    .services-categories {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .category-title {
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      padding: 1.5rem 0 0.8rem;
+      border-top: 1px solid rgba(201,168,76,0.08);
+      margin-top: 1.5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.08);
+    }
+
+    .service-item {
+      background: var(--card);
+      padding: 1.6rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.3s;
+      transform-origin: bottom;
+    }
+
+    .service-item:hover { background: var(--card2); }
+    .service-item:hover::before { transform: scaleY(1); }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .service-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* HOURS */
+    #hours { background: var(--black); }
+
+    .hours-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+      border: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.3rem 2.5rem;
+      border-bottom: 1px solid rgba(201,168,76,0.06);
+      transition: background 0.2s;
+    }
+
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row:hover { background: rgba(201,168,76,0.03); }
+
+    .hours-row.today {
+      background: rgba(201,168,76,0.06);
+      border-left: 3px solid var(--gold);
+    }
+
+    .hours-day {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--grey2);
+    }
+
+    .hours-row.today .hours-day { color: var(--gold); }
+
+    .hours-time {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+    }
+
+    .hours-note {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      color: var(--grey);
+      font-style: italic;
+    }
+
+    .hours-note span { color: var(--gold); }
+
+    /* CONTACT */
+    #contact { background: var(--deep); }
+
+    .contact-wrapper {
+      max-width: 1000px;
+      margin: 0 auto 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .contact-card {
+      border: 1px solid rgba(201,168,76,0.1);
+      padding: 2.2rem 1.8rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s, background 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .contact-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-5px);
+      background: rgba(201,168,76,0.04);
+    }
+
+    .contact-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+    .contact-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-name {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--grey2);
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--white);
+    }
+
+    .location-box {
+      max-width: 700px;
+      margin: 2rem auto 0;
+      border: 1px solid rgba(201,168,76,0.1);
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .location-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+    .location-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+
+    .location-address {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--grey2);
+      line-height: 1.9;
+    }
+
+    .book-center { text-align: center; margin-top: 2.5rem; }
+
+    /* WHATSAPP FLOAT */
+    .wa-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      text-decoration: none;
+      z-index: 998;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 24px rgba(37,211,102,0.45);
+      animation: waPulse 2.5s ease-in-out infinite;
+    }
+
+    .wa-float:hover { transform: scale(1.12); }
+
+    @keyframes waPulse {
+      0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.45); }
+      50% { box-shadow: 0 4px 36px rgba(37,211,102,0.7); }
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      border-top: 1px solid rgba(201,168,76,0.08);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--grey);
+      letter-spacing: 0.2em;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--grey);
+      text-decoration: none;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.6rem;
+      color: var(--grey);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .footer-copy span { color: var(--gold); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 62px; left: 0; right: 0;
+        background: rgba(7,7,7,0.98);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(201,168,76,0.12);
+        z-index: 999;
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.8rem; }
+      .hamburger { display: flex; }
+      section { padding: 5rem 1.2rem; }
+      .hero-stats { gap: 2rem; }
+      .hours-row { padding: 1.1rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; align-items: center; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">
+      <span class="nav-logo-main">Mr Professional</span>
+      <span class="nav-logo-sub">Hair & Beauty Saloon</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#hours">Hours</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://wa.me/27686857917?text=Hello!%20I'd%20like%20to%20book%20an%20appointment." target="_blank" class="nav-book">Book Now</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-deco"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Hair & Beauty Saloon — Krugersdorp</div>
+      <h1 class="hero-title">Mr <span class="hero-title-gold">Professional</span></h1>
+      <p class="hero-title-sub">Where Style Meets Precision</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="https://wa.me/27686857917?text=Hello!%20I'd%20like%20to%20book%20an%20appointment." target="_blank">💬 Book via WhatsApp</a>
+        <a class="btn-secondary" href="#services">View Services</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Services</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">7</div>
+          <div class="stat-label">Days a Week</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Expert Stylists</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament"><div class="ornament-inner">✦ &nbsp; ✦ &nbsp; ✦</div></div>
+
+  <section id="services">
+    <p class="sec-label">What We Offer</p>
+    <h2 class="sec-title">Our Services</h2>
+    <p class="sec-desc">Premium grooming and beauty treatments delivered with skill, care and precision.</p>
+
+    <div class="services-categories">
+      <div class="category-title">✂ Haircut & Grooming</div>
+      <div class="services-grid">
+        <div class="service-item"><span class="service-name">Men's Haircut</span><span class="service-price">R150</span></div>
+        <div class="service-item"><span class="service-name">Children's Haircut</span><span class="service-price">R110</span></div>
+        <div class="service-item"><span class="service-name">Head Shave</span><span class="service-price">R130</span></div>
+        <div class="service-item"><span class="service-name">Beard Trim</span><span class="service-price">R80</span></div>
+        <div class="service-item"><span class="service-name">Shave</span><span class="service-price">R80</span></div>
+        <div class="service-item"><span class="service-name">Wax Nose & Ears</span><span class="service-price">R100</span></div>
+      </div>
+
+      <div class="category-title">✦ Beauty Treatments</div>
+      <div class="services-grid">
+        <div class="service-item"><span class="service-name">Full Facial</span><span class="service-price">R300</span></div>
+        <div class="service-item"><span class="service-name">Eyebrow + Eyebrow Tint</span><span class="service-price">R150</span></div>
+        <div class="service-item"><span class="service-name">Highlights</span><span class="service-price">R450</span></div>
+        <div class="service-item"><span class="service-name">Perms</span><span class="service-price">R1000</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament"><div class="ornament-inner">✦ &nbsp; ✦ &nbsp; ✦</div></div>
+
+  <section id="hours">
+    <p class="sec-label">When We're Open</p>
+    <h2 class="sec-title">Operating Hours</h2>
+    <p class="sec-desc">Open 7 days a week — always here for you.</p>
+
+    <div class="hours-wrapper">
+      <div class="hours-row" id="row-monFri">
+        <span class="hours-day">Monday – Friday</span>
+        <span class="hours-time">08:00 – 19:00</span>
+      </div>
+      <div class="hours-row" id="row-sat">
+        <span class="hours-day">Saturday</span>
+        <span class="hours-time">08:00 – 17:00</span>
+      </div>
+      <div class="hours-row" id="row-sun">
+        <span class="hours-day">Sunday</span>
+        <span class="hours-time">08:00 – 16:00</span>
+      </div>
+    </div>
+    <p class="hours-note">⚠️ Friday prayer break: <span>12:30 – 14:00</span></p>
+  </section>
+
+  <div class="ornament"><div class="ornament-inner">✦ &nbsp; ✦ &nbsp; ✦</div></div>
+
+  <section id="contact">
+    <p class="sec-label">Get In Touch</p>
+    <h2 class="sec-title">Contact Us</h2>
+    <p class="sec-desc">Book an appointment or reach out — we're happy to help.</p>
+
+    <div class="contact-wrapper">
+      <a class="contact-card" href="https://wa.me/27686857917?text=Hello!%20I'd%20like%20to%20book%20an%20appointment." target="_blank">
+        <div class="contact-icon">💬</div>
+        <div class="contact-label">WhatsApp</div>
+        <div class="contact-name">Shaz</div>
+        <div class="contact-value">068 685 7917</div>
+      </a>
+      <a class="contact-card" href="https://wa.me/27620642016?text=Hello!%20I'd%20like%20to%20book%20an%20appointment." target="_blank">
+        <div class="contact-icon">💬</div>
+        <div class="contact-label">WhatsApp</div>
+        <div class="contact-name">Saeed</div>
+        <div class="contact-value">062 064 2016</div>
+      </a>
+      <a class="contact-card" href="https://www.tiktok.com/@mr.professional333" target="_blank">
+        <div class="contact-icon">🎵</div>
+        <div class="contact-label">TikTok</div>
+        <div class="contact-name">Follow Us</div>
+        <div class="contact-value">@mr.professional333</div>
+      </a>
+      <a class="contact-card" href="https://instagram.com/mrprofessional" target="_blank">
+        <div class="contact-icon">📸</div>
+        <div class="contact-label">Instagram</div>
+        <div class="contact-name">Follow Us</div>
+        <div class="contact-value">@mr professional</div>
+      </a>
+    </div>
+
+    <div class="location-box">
+      <div class="location-icon">📍</div>
+      <div class="location-label">Find Us Here</div>
+      <div class="location-address">
+        Shop No. 12, Bell Drive Crossing<br>
+        77 Shannon Road, Noordheuwel<br>
+        Krugersdorp
+      </div>
+    </div>
+
+    <div class="book-center">
+      <a class="btn-primary" href="https://wa.me/27686857917?text=Hello!%20I'd%20like%20to%20book%20an%20appointment." target="_blank">📅 Book an Appointment</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Mr Professional</div>
+    <div class="footer-tagline">Hair & Beauty Saloon — Krugersdorp</div>
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#hours">Hours</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 <span>Mr Professional Beauty Saloon</span>. All rights reserved.</div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/27686857917?text=Hello!%20I'd%20like%20to%20book%20an%20appointment." target="_blank" title="Book on WhatsApp">💬</a>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+
+    // Highlight today's hours
+    const day = new Date().getDay();
+    if (day >= 1 && day <= 5) document.getElementById('row-monFri').classList.add('today');
+    else if (day === 6) document.getElementById('row-sat').classList.add('today');
+    else if (day === 0) document.getElementById('row-sun').classList.add('today');
+  </script>
+
+</body>
+</html>
